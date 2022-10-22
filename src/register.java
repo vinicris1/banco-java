@@ -115,9 +115,9 @@ public class register {
 						ResultSet rs2 = comando2.executeQuery(selectCpf);
 						
 						if(rs.next()) {
-						    JOptionPane.showMessageDialog(btnNewButton, "Olá, "+ msg + "esse e-mail já foi registrado!");
+						    JOptionPane.showMessageDialog(btnNewButton, "OlÃ¡, "+ msg + "esse e-mail jÃ¡ foi registrado!");
 						}else if(rs2.next()){
-						    JOptionPane.showMessageDialog(btnNewButton, "Olá, "+ msg + "esse cpf já foi registrado!");
+						    JOptionPane.showMessageDialog(btnNewButton, "OlÃ¡, "+ msg + "esse cpf jÃ¡ foi registrado!");
 						}else {
 						    comando.setInt(1, id);
 	                        comando.setString(2, nomeR);
@@ -142,9 +142,9 @@ public class register {
 						}
 					}
 				}else if(cpfR.length() > 11 || cpfR.length() < 11){
-				    JOptionPane.showMessageDialog(btnNewButton, "Olá, "+ msg + "por favor coloque um cpf válido!");
+				    JOptionPane.showMessageDialog(btnNewButton, "OlÃ¡, "+ msg + "por favor coloque um cpf vÃ¡lido!");
 				}else {
-				    JOptionPane.showMessageDialog(btnNewButton, "Olá, "+ msg + "por favor coloque um email válido!");
+				    JOptionPane.showMessageDialog(btnNewButton, "OlÃ¡, "+ msg + "por favor coloque um email vÃ¡lido!");
 				}
 				
 			}
