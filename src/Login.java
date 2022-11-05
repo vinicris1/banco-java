@@ -1,15 +1,9 @@
-import java.awt.EventQueue;
 import java.sql.*;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.*;
+
+import java.awt.*;
+import java.awt.event.*;
 
 public class Login {
 
@@ -17,9 +11,7 @@ public class Login {
 	private JTextField user;
 	private JPasswordField senha;
 
-	/**
-	 * Launch the application.
-	 */
+	// Launch the application
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -33,45 +25,43 @@ public class Login {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
+	// Create the application
 	public Login() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
+	//Initialize the contents of the frame
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 242, 323);
+		frame.setResizable(false);
+		frame.setBounds(100, 100, 350, 270);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Login Page");
+		JLabel lblNewLabel = new JLabel("Banco Java");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel.setBounds(110, 20, 100, 14);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(52, 23, 123, 14);
-		frame.getContentPane().add(lblNewLabel);
 		
-		JLabel lblNewLabel_1 = new JLabel("E-mail");
-		lblNewLabel_1.setBounds(10, 48, 46, 14);
-		frame.getContentPane().add(lblNewLabel_1);
+		JLabel lblNewLabel_1 = new JLabel("E-mail:");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNewLabel_1.setBounds(50, 50, 46, 14);
 		
-		JLabel lblNewLabel_2 = new JLabel("Senha");
-		lblNewLabel_2.setBounds(10, 99, 46, 14);
-		frame.getContentPane().add(lblNewLabel_2);
+		JLabel lblNewLabel_2 = new JLabel("Senha:");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNewLabel_2.setBounds(50, 108, 46, 14);
 		
 		user = new JTextField();
-		user.setBounds(20, 68, 183, 20);
-		frame.getContentPane().add(user);
+		user.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		user.setBounds(50, 75, 240, 25);
 		user.setColumns(10);
 		
 		senha = new JPasswordField();
-		senha.setBounds(20, 116, 183, 20);
-		frame.getContentPane().add(senha);
+		senha.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		senha.setBounds(50, 130, 240, 25);
 		
-		JButton btnNewButton = new JButton("Login");
+		JButton btnNewButton = new JButton("Entrar");
+		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnNewButton.setBounds(185, 175, 90, 25);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Connection conexao = null;
@@ -79,43 +69,49 @@ public class Login {
 				ResultSet resultado = null;
 				
 				try {
-					conexao = Db_Connect.Conectar();
+					conexao = DBConnect.StartConnection();
 					comando = conexao.createStatement();
-					String meu_sql = "Select * FROM usuarios WHERE email='"+user.getText()+"' and password='"+senha.getText().toString()+"'";
+					String meu_sql = "SELECT * FROM usuarios WHERE email ='" + user.getText() + "' AND password = '" + senha.getText().toString() + "'";
 					resultado = comando.executeQuery(meu_sql);
-					if(resultado.next()) {
-						
+					
+					if (resultado.next()) {
 						test t1 = new test();
 						t1.frame.setVisible(true); //abrir janela 2
-						
-						frame.setVisible(false); //fechar janela de login caso de certo
-					}else {
+						frame.setVisible(false); // fechar janela de login caso de certo
+					} else {
 						JOptionPane.showMessageDialog(null, "Credenciais incorretas...");
-				}
+					}
 				} catch(SQLException err) {
 					err.printStackTrace();
-				}finally {
-					Db_Connect.FecharConexao(conexao);
+				} finally {
+					DBConnect.EndConnection(conexao);
+
 					try {
 						comando.close();
 						resultado.close();
-					}catch(SQLException erro) {
-						erro.printStackTrace();
+					} catch(SQLException err) {
+						err.printStackTrace();
 					}
 				}
 			}
 		});
-		btnNewButton.setBounds(114, 164, 89, 23);
-		frame.getContentPane().add(btnNewButton);
 		
 		JButton Registrar = new JButton("Registrar");
+		Registrar.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		Registrar.setBounds(50, 175, 90, 25);
 		Registrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				register reg = new register();
+				Register reg = new Register();
 				reg.frame.setVisible(true);
 			}
 		});
-		Registrar.setBounds(20, 164, 89, 23);
+		frame.getContentPane().setLayout(null);
+		frame.getContentPane().add(lblNewLabel);
+		frame.getContentPane().add(lblNewLabel_1);
+		frame.getContentPane().add(lblNewLabel_2);
+		frame.getContentPane().add(user);
+		frame.getContentPane().add(senha);
+		frame.getContentPane().add(btnNewButton);
 		frame.getContentPane().add(Registrar);
 	}
 }

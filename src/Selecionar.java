@@ -11,7 +11,7 @@ public class Selecionar {
 		ResultSet resultado = null;
 		
 		try {
-			conexao = Db_Connect.Conectar();
+			conexao = DBConnect.StartConnection();
 			comando = conexao.createStatement();
 			String meu_sql = "SELECT * FROM users";
 			resultado = comando.executeQuery(meu_sql);
@@ -21,7 +21,7 @@ public class Selecionar {
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}finally {
-			Db_Connect.FecharConexao(conexao);
+			DBConnect.EndConnection(conexao);
 			try {
 				comando.close();
 				resultado.close();

@@ -1,27 +1,31 @@
 import java.sql.*;
 
 public class select {
-    Connection conexao = null;
+	public static void main(String[] args) {
+		Connection conexao = null;
 		Statement comando = null;
 		ResultSet resultado = null;
-		
+
 		try {
-			conexao = Db_Connect.Conectar();
+			conexao = DBConnect.StartConnection();
 			comando = conexao.createStatement();
 			String meu_sql = "SELECT * FROM contatos";
 			resultado = comando.executeQuery(meu_sql);
-			while(resultado.next()) {
+
+			while (resultado.next()) {
 				System.out.println(resultado.getString("cpf") + " " + resultado.getString("nome")+ " " + resultado.getString("idade"));
 			}
-		} catch(SQLException e) {
-			e.printStackTrace();
-		}finally {
-			Db_Connect.FecharConexao(conexao);
+		} catch (SQLException err) {
+			err.printStackTrace();
+		} finally {
+			DBConnect.EndConnection(conexao);
+
 			try {
 				comando.close();
 				resultado.close();
-			}catch(SQLException e) {
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
+	}
 }
