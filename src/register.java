@@ -71,7 +71,7 @@ public class Register {
 				frame.dispose();
 
 			}
-		});
+		});   
 		
 		JButton btnNewButton = new JButton("Registrar");
 		btnNewButton.setBounds(165, 275, 90, 25);
