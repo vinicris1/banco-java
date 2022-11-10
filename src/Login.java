@@ -7,7 +7,7 @@ import java.awt.event.*;
 
 public class Login {
 
-	private JFrame frame;
+	JFrame frame;
 	private JTextField user;
 	private JPasswordField senha;
 
@@ -103,6 +103,7 @@ public class Login {
 			public void actionPerformed(ActionEvent e) {
 				Register reg = new Register();
 				reg.frame.setVisible(true);
+				frame.setVisible(false);
 			}
 		});
 		frame.getContentPane().setLayout(null);

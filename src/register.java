@@ -63,6 +63,15 @@ public class Register {
 		email.setBounds(30, 170, 365, 25);
 		email.setColumns(10);
 		frame.getContentPane().add(email);
+
+		frame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				Login L = new Login();
+				L.frame.setVisible(true);
+				frame.dispose();
+
+			}
+		});
 		
 		JButton btnNewButton = new JButton("Registrar");
 		btnNewButton.setBounds(165, 275, 90, 25);
