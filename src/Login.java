@@ -8,8 +8,14 @@ import java.awt.event.*;
 public class Login {
 
 	JFrame frame;
-	private JTextField user;
-	private JPasswordField senha;
+	private JTextField email;
+	private JPasswordField password;
+	
+	static String userName;
+	static String cpf;
+	static double balanceBrl;
+	static double balanceUsd;
+	static double balanceEur;
 
 	// Launch the application
 	public static void main(String[] args) {
@@ -50,14 +56,14 @@ public class Login {
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblNewLabel_2.setBounds(50, 108, 46, 14);
 		
-		user = new JTextField();
-		user.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		user.setBounds(50, 75, 240, 25);
-		user.setColumns(10);
+		email = new JTextField();
+		email.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		email.setBounds(50, 75, 240, 25);
+		email.setColumns(10);
 		
-		senha = new JPasswordField();
-		senha.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		senha.setBounds(50, 130, 240, 25);
+		password = new JPasswordField();
+		password.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		password.setBounds(50, 130, 240, 25);
 		
 		JButton btnNewButton = new JButton("Entrar");
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -71,12 +77,24 @@ public class Login {
 				try {
 					conexao = DBConnect.StartConnection();
 					comando = conexao.createStatement();
-					String meu_sql = "SELECT * FROM usuarios WHERE email ='" + user.getText() + "' AND password = '" + senha.getText().toString() + "'";
+					String meu_sql = "SELECT * FROM usuarios WHERE email ='" + email.getText() + "' AND password = '" + password.getText().toString() + "'";
 					resultado = comando.executeQuery(meu_sql);
 					
+					
 					if (resultado.next()) {
-						test t1 = new test();
-						t1.frame.setVisible(true); //abrir janela 2
+						String getName = "SELECT * FROM usuarios WHERE email ='"+ email.getText() +"' ";
+						ResultSet rs = comando.executeQuery(getName);
+						
+						if (rs.next()) {
+							userName =  rs.getString(2);
+							cpf = rs.getString(5);
+							balanceBrl = rs.getDouble(6);
+							balanceUsd = rs.getDouble(7);
+							balanceEur = rs.getDouble(8);
+						}
+
+						UserPanel t1 = new UserPanel();
+						t1.frame.setVisible(true); // abrir janela 2
 						frame.setVisible(false); // fechar janela de login caso de certo
 					} else {
 						JOptionPane.showMessageDialog(null, "Credenciais incorretas...");
@@ -110,8 +128,8 @@ public class Login {
 		frame.getContentPane().add(lblNewLabel);
 		frame.getContentPane().add(lblNewLabel_1);
 		frame.getContentPane().add(lblNewLabel_2);
-		frame.getContentPane().add(user);
-		frame.getContentPane().add(senha);
+		frame.getContentPane().add(email);
+		frame.getContentPane().add(password);
 		frame.getContentPane().add(btnNewButton);
 		frame.getContentPane().add(Registrar);
 	}
