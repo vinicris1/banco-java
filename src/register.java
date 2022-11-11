@@ -95,7 +95,7 @@ public class Register {
 					try {
 						conexao = DBConnect.StartConnection();
 						
-						String sql = "INSERT INTO usuarios(id,name,email,password,cpf) VALUES(?,?,?,?,?)";
+						String sql = "INSERT INTO usuarios(id,name,email,password,cpf,balance_brl,balance_usd,balance_eur) VALUES(?,?,?,?,?,?,?,?)";
 						
 						
 						comando = conexao.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
@@ -108,15 +108,18 @@ public class Register {
 						ResultSet rs2 = comando2.executeQuery(selectCpf);
 						
 						if(rs.next()) {
-						    JOptionPane.showMessageDialog(btnNewButton, "Olá, "+ msg + "esse e-mail já foi registrado!");
+						    JOptionPane.showMessageDialog(btnNewButton, "OlÃ¡, "+ msg + "esse e-mail jÃ¡ foi registrado!");
 						}else if(rs2.next()){
-						    JOptionPane.showMessageDialog(btnNewButton, "Olá, "+ msg + "este CPF já foi registrado!");
+						    JOptionPane.showMessageDialog(btnNewButton, "OlÃ¡, "+ msg + "este CPF jÃ¡ foi registrado!");
 						}else {
 						    comando.setInt(1, id);
 	                        comando.setString(2, nomeR);
 	                        comando.setString(3, emailR);
 	                        comando.setString(4, password);
 	                        comando.setString(5, cpfR);
+	                        comando.setDouble(6, 50);
+	                        comando.setDouble(7, 0);
+	                        comando.setDouble(8, 0);
 	                        
 	                        if(comando.executeUpdate()>0) {
 	                            JOptionPane.showMessageDialog(btnNewButton, "Bem-vindo, " + msg + "sua conta foi criada com sucesso!");
@@ -135,9 +138,9 @@ public class Register {
 						}
 					}
 				}else if(cpfR.length() > 11 || cpfR.length() < 11){
-				    JOptionPane.showMessageDialog(btnNewButton, "Olá, " + msg + "por favor coloque um CPF válido!");
+				    JOptionPane.showMessageDialog(btnNewButton, "OlÃ¡, " + msg + "por favor coloque um CPF vÃ¡lido!");
 				}else {
-				    JOptionPane.showMessageDialog(btnNewButton, "Olá, " + msg + "por favor coloque um e-mail válido!");
+				    JOptionPane.showMessageDialog(btnNewButton, "OlÃ¡, " + msg + "por favor coloque um e-mail vÃ¡lido!");
 				}
 				
 			}
