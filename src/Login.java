@@ -1,23 +1,34 @@
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.JTextField;
+import javax.swing.JPasswordField;
+import javax.swing.JButton;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.EventQueue;
+import java.awt.Font;
+
 import java.sql.*;
-
-import javax.swing.*;
-
-import java.awt.*;
-import java.awt.event.*;
 
 public class Login {
 
 	JFrame frame;
+
 	private JTextField email;
 	private JPasswordField password;
 	
-	static String userName;
-	static String cpf;
-	static double balanceBrl;
-	static double balanceUsd;
-	static double balanceEur;
+	public static String name;
+	public static String cpf;
+	public static double balanceBrl;
+	public static double balanceUsd;
+	public static double balanceEur;
 
-	// Launch the application
+	/**
+	 * Launch the application.
+	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -31,12 +42,16 @@ public class Login {
 		});
 	}
 
-	// Create the application
+	/**
+	 * Create the application.
+	 */
 	public Login() {
 		initialize();
 	}
 
-	//Initialize the contents of the frame
+	/**
+	 * Initialize the contents of the frame.
+	 */
 	private void initialize() {
 		frame = new JFrame();
 		frame.setResizable(false);
@@ -86,7 +101,7 @@ public class Login {
 						ResultSet rs = comando.executeQuery(getName);
 						
 						if (rs.next()) {
-							userName =  rs.getString(2);
+							name =  rs.getString(2);
 							cpf = rs.getString(5);
 							balanceBrl = rs.getDouble(6);
 							balanceUsd = rs.getDouble(7);
