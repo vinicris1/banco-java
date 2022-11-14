@@ -65,7 +65,7 @@ public class Register {
 		frame.getContentPane().add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("E-mail:");
-		lblNewLabel_1.setBounds(30, 145, 50, 20);
+		lblNewLabel_1.setBounds(30, 86, 50, 20);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		frame.getContentPane().add(lblNewLabel_1);
 		
@@ -82,7 +82,7 @@ public class Register {
 		
 		emailInput = new JTextField();
 		emailInput.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		emailInput.setBounds(30, 170, 365, 25);
+		emailInput.setBounds(30, 111, 365, 25);
 		emailInput.setColumns(10);
 		frame.getContentPane().add(emailInput);
 
@@ -174,13 +174,13 @@ public class Register {
 		frame.getContentPane().add(passwordInput);
 		
 		JLabel lblCpf = new JLabel("CPF:");
-		lblCpf.setBounds(30, 80, 40, 20);
+		lblCpf.setBounds(30, 144, 40, 20);
 		lblCpf.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		frame.getContentPane().add(lblCpf);
 		
 		cpfInput = new JTextField();
 		cpfInput.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		cpfInput.setBounds(30, 110, 365, 25);
+		cpfInput.setBounds(30, 175, 365, 25);
 		cpfInput.setColumns(10);
 		frame.getContentPane().add(cpfInput);
 	}
