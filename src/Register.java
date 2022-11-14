@@ -1,18 +1,31 @@
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.JPasswordField;
+import javax.swing.JButton;
+
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.ActionEvent;
+
 import java.sql.*;
-
-import javax.swing.*;
-
-import java.awt.*;
-import java.awt.event.*;
 
 public class Register {
 
 	JFrame frame;
-	private JTextField nome;
-	private JTextField email;
-	private JPasswordField senha;
-	private JTextField cpf;
 
+	private JTextField nameInput;
+	private JTextField emailInput;
+	private JPasswordField passwordInput;
+	private JTextField cpfInput;
+
+	/**
+	 * Launch the application.
+	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -26,10 +39,16 @@ public class Register {
 		});
 	}
 
+	/**
+	 * Create the application.
+	 */
 	public Register() {
 		initialize();
 	}
 
+	/**
+	 * Initialize the contents of the frame.
+	 */
 	private void initialize() {
 		frame = new JFrame();
 		frame.setResizable(false);
@@ -52,26 +71,25 @@ public class Register {
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		frame.getContentPane().add(lblNewLabel_2);
 		
-		nome = new JTextField();
-		nome.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		nome.setBounds(30, 50, 365, 25);
-		frame.getContentPane().add(nome);
-		nome.setColumns(10);
+		nameInput = new JTextField();
+		nameInput.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		nameInput.setBounds(30, 50, 365, 25);
+		frame.getContentPane().add(nameInput);
+		nameInput.setColumns(10);
 		
-		email = new JTextField();
-		email.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		email.setBounds(30, 170, 365, 25);
-		email.setColumns(10);
-		frame.getContentPane().add(email);
+		emailInput = new JTextField();
+		emailInput.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		emailInput.setBounds(30, 170, 365, 25);
+		emailInput.setColumns(10);
+		frame.getContentPane().add(emailInput);
 
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				Login L = new Login();
 				L.frame.setVisible(true);
 				frame.dispose();
-
 			}
-		});   
+		});
 		
 		JButton btnNewButton = new JButton("Registrar");
 		btnNewButton.setBounds(165, 275, 90, 25);
@@ -82,65 +100,64 @@ public class Register {
 				PreparedStatement comando = null;
 				PreparedStatement comando2 = null;
 				
-				String nomeR = nome.getText();
-				String emailR = email.getText();
-				String password = senha.getText();	
-				String cpfR = cpf.getText();
+				String nomeR = nameInput.getText();
+				String emailR = emailInput.getText();
+				String password = passwordInput.getText();	
+				String cpfR = cpfInput.getText();
 				int id = 0;
 				
 				String msg = "" + nomeR;
 				msg += " \n";
 				
-				if (emailR.contains("@") && cpfR.length() == 11) {	    
+				if (emailR.contains("@") && cpfR.length() == 11) {
 					try {
 						conexao = DBConnect.StartConnection();
-						
-						String sql = "INSERT INTO usuarios(id,name,email,password,cpf,balance_brl,balance_usd,balance_eur) VALUES(?,?,?,?,?,?,?,?)";
-						
-						
+
+						String sql = "INSERT INTO usuarios(id,name,emailInput,password,cpfInput,balance_brl,balance_usd,balance_eur) VALUES(?,?,?,?,?,?,?,?)";
+
 						comando = conexao.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
-						comando2 = conexao.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);						
-						
-						String select = "SELECT * FROM usuarios WHERE email='" + emailR + "'";
-						String selectCpf = "SELECT * FROM usuarios WHERE cpf='" + cpfR + "'";
-						
+						comando2 = conexao.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+
+						String select = "SELECT * FROM usuarios WHERE emailInput='" + emailR + "'";
+						String selectCpf = "SELECT * FROM usuarios WHERE cpfInput='" + cpfR + "'";
+
 						ResultSet rs = comando.executeQuery(select);
 						ResultSet rs2 = comando2.executeQuery(selectCpf);
-						
-						if(rs.next()) {
-						    JOptionPane.showMessageDialog(btnNewButton, "OlÃ¡, "+ msg + "esse e-mail jÃ¡ foi registrado!");
-						}else if(rs2.next()){
-						    JOptionPane.showMessageDialog(btnNewButton, "OlÃ¡, "+ msg + "este CPF jÃ¡ foi registrado!");
-						}else {
-						    comando.setInt(1, id);
-	                        comando.setString(2, nomeR);
-	                        comando.setString(3, emailR);
-	                        comando.setString(4, password);
-	                        comando.setString(5, cpfR);
-	                        comando.setDouble(6, 50);
-	                        comando.setDouble(7, 0);
-	                        comando.setDouble(8, 0);
-	                        
-	                        if(comando.executeUpdate()>0) {
-	                            JOptionPane.showMessageDialog(btnNewButton, "Bem-vindo, " + msg + "sua conta foi criada com sucesso!");
-	                            frame.setVisible(false);
-	                        }
+
+						if (rs.next()) {
+							JOptionPane.showMessageDialog(btnNewButton, "OlÃ¡, " + msg + "esse e-mail jÃ¡ foi registrado!");
+						} else if (rs2.next()) {
+							JOptionPane.showMessageDialog(btnNewButton, "OlÃ¡, " + msg + "este CPF jÃ¡ foi registrado!");
+						} else {
+							comando.setInt(1, id);
+							comando.setString(2, nomeR);
+							comando.setString(3, emailR);
+							comando.setString(4, password);
+							comando.setString(5, cpfR);
+							comando.setDouble(6, 50);
+							comando.setDouble(7, 0);
+							comando.setDouble(8, 0);
+
+							if (comando.executeUpdate() > 0) {
+								JOptionPane.showMessageDialog(btnNewButton, "Bem-vindo, " + msg + "sua conta foi criada com sucesso!");
+								frame.setVisible(false);
+							}
 						}
-						}catch(SQLException er) {
-							er.printStackTrace();
-					}finally{
-						DBConnect.EndConnection(conexao);
-						try {
-							comando.close();
-							comando2.close();
-						}catch(SQLException err){
+						} catch (SQLException err) {
 							err.printStackTrace();
+						} finally {
+							DBConnect.EndConnection(conexao);
+							try {
+								comando.close();
+								comando2.close();
+							} catch (SQLException err) {
+								err.printStackTrace();
+							}
 						}
-					}
-				}else if(cpfR.length() > 11 || cpfR.length() < 11){
-				    JOptionPane.showMessageDialog(btnNewButton, "OlÃ¡, " + msg + "por favor coloque um CPF vÃ¡lido!");
-				}else {
-				    JOptionPane.showMessageDialog(btnNewButton, "OlÃ¡, " + msg + "por favor coloque um e-mail vÃ¡lido!");
+				} else if (cpfR.length() > 11 || cpfR.length() < 11) {
+					JOptionPane.showMessageDialog(btnNewButton, "OlÃ¡, " + msg + "por favor coloque um CPF vÃ¡lido!");
+				} else {
+					JOptionPane.showMessageDialog(btnNewButton, "OlÃ¡, " + msg + "por favor coloque um e-mail vÃ¡lido!");
 				}
 				
 			}
@@ -148,20 +165,20 @@ public class Register {
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		frame.getContentPane().add(btnNewButton);
 		
-		senha = new JPasswordField();
-		senha.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		senha.setBounds(30, 230, 365, 25);
-		frame.getContentPane().add(senha);
+		passwordInput = new JPasswordField();
+		passwordInput.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		passwordInput.setBounds(30, 230, 365, 25);
+		frame.getContentPane().add(passwordInput);
 		
 		JLabel lblCpf = new JLabel("CPF:");
 		lblCpf.setBounds(30, 80, 40, 20);
 		lblCpf.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		frame.getContentPane().add(lblCpf);
 		
-		cpf = new JTextField();
-		cpf.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		cpf.setBounds(30, 110, 365, 25);
-		cpf.setColumns(10);
-		frame.getContentPane().add(cpf);
+		cpfInput = new JTextField();
+		cpfInput.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		cpfInput.setBounds(30, 110, 365, 25);
+		cpfInput.setColumns(10);
+		frame.getContentPane().add(cpfInput);
 	}
 }
