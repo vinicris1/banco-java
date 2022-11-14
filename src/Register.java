@@ -50,11 +50,14 @@ public class Register {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		Login login = new Login();
+
 		frame = new JFrame();
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 450, 360);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		frame.setLocationRelativeTo(null);
 		
 		JLabel lblNewLabel = new JLabel("Nome completo:");
 		lblNewLabel.setBounds(30, 20, 115, 20);
@@ -85,8 +88,7 @@ public class Register {
 
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				Login L = new Login();
-				L.frame.setVisible(true);
+				login.frame.setVisible(true);
 				frame.dispose();
 			}
 		});
@@ -95,71 +97,72 @@ public class Register {
 		btnNewButton.setBounds(165, 275, 90, 25);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Connection conexao = null;
-				
-				PreparedStatement comando = null;
-				PreparedStatement comando2 = null;
-				
-				String nomeR = nameInput.getText();
-				String emailR = emailInput.getText();
-				String password = passwordInput.getText();	
-				String cpfR = cpfInput.getText();
+				Connection conn = null;
+
+				PreparedStatement command = null;
+				PreparedStatement command2 = null;
+
 				int id = 0;
-				
-				String msg = "" + nomeR;
-				msg += " \n";
-				
-				if (emailR.contains("@") && cpfR.length() == 11) {
+				String name = nameInput.getText();
+				String email = emailInput.getText();
+				String password = passwordInput.getText();	
+				String cpf = cpfInput.getText();
+
+				if (name.length() < 1) {
+					JOptionPane.showMessageDialog(btnNewButton, "Nome inválido.");
+				} else if (cpf.length() < 11 || cpf.length() > 11) {
+					JOptionPane.showMessageDialog(btnNewButton, "CPF Inválido.");
+				} else if (!email.contains("@")) {
+					JOptionPane.showMessageDialog(btnNewButton, "Email inválido.");
+				} else if (password.length() < 1) {
+					JOptionPane.showMessageDialog(btnNewButton, "Senha inválida.");
+				} else {
 					try {
-						conexao = DBConnect.StartConnection();
+						conn = DBConnect.StartConnection();
 
-						String sql = "INSERT INTO usuarios(id,name,emailInput,password,cpfInput,balance_brl,balance_usd,balance_eur) VALUES(?,?,?,?,?,?,?,?)";
+						String sql = "INSERT INTO usuarios(id, name, cpf, email, password, balance_brl, balance_usd, balance_eur) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
-						comando = conexao.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
-						comando2 = conexao.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+						command = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+						command2 = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-						String select = "SELECT * FROM usuarios WHERE emailInput='" + emailR + "'";
-						String selectCpf = "SELECT * FROM usuarios WHERE cpfInput='" + cpfR + "'";
+						String selectEmail = String.format("SELECT * FROM usuarios WHERE email='%s'", email);
+						String selectCpf = String.format("SELECT * FROM usuarios WHERE cpf='%s'", cpf);
 
-						ResultSet rs = comando.executeQuery(select);
-						ResultSet rs2 = comando2.executeQuery(selectCpf);
+						ResultSet rs = command.executeQuery(selectEmail);
+						ResultSet rs2 = command2.executeQuery(selectCpf);
 
 						if (rs.next()) {
-							JOptionPane.showMessageDialog(btnNewButton, "OlÃ¡, " + msg + "esse e-mail jÃ¡ foi registrado!");
+							JOptionPane.showMessageDialog(btnNewButton, "Este email já foi registrado.");
 						} else if (rs2.next()) {
-							JOptionPane.showMessageDialog(btnNewButton, "OlÃ¡, " + msg + "este CPF jÃ¡ foi registrado!");
+							JOptionPane.showMessageDialog(btnNewButton, "Este CPF já foi registrado.");
 						} else {
-							comando.setInt(1, id);
-							comando.setString(2, nomeR);
-							comando.setString(3, emailR);
-							comando.setString(4, password);
-							comando.setString(5, cpfR);
-							comando.setDouble(6, 50);
-							comando.setDouble(7, 0);
-							comando.setDouble(8, 0);
+							command.setInt(1, id);
+							command.setString(2, name);
+							command.setString(3, cpf);
+							command.setString(4, email);
+							command.setString(5, password);
+							command.setDouble(6, 50);
+							command.setDouble(7, 0);
+							command.setDouble(8, 0);
 
-							if (comando.executeUpdate() > 0) {
-								JOptionPane.showMessageDialog(btnNewButton, "Bem-vindo, " + msg + "sua conta foi criada com sucesso!");
+							if (command.executeUpdate() > 0) {
+								JOptionPane.showMessageDialog(btnNewButton, "Conta criada com sucesso!");
 								frame.setVisible(false);
+								login.frame.setVisible(true);
 							}
 						}
+					} catch (SQLException err) {
+						err.printStackTrace();
+					} finally {
+						DBConnect.EndConnection(conn);
+						try {
+							command.close();
+							command2.close();
 						} catch (SQLException err) {
 							err.printStackTrace();
-						} finally {
-							DBConnect.EndConnection(conexao);
-							try {
-								comando.close();
-								comando2.close();
-							} catch (SQLException err) {
-								err.printStackTrace();
-							}
 						}
-				} else if (cpfR.length() > 11 || cpfR.length() < 11) {
-					JOptionPane.showMessageDialog(btnNewButton, "OlÃ¡, " + msg + "por favor coloque um CPF vÃ¡lido!");
-				} else {
-					JOptionPane.showMessageDialog(btnNewButton, "OlÃ¡, " + msg + "por favor coloque um e-mail vÃ¡lido!");
+					}
 				}
-				
 			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
