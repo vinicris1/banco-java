@@ -57,6 +57,7 @@ public class Login {
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 350, 270);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLocationRelativeTo(null);
 		
 		JLabel lblNewLabel = new JLabel("Banco Java");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -85,43 +86,46 @@ public class Login {
 		btnNewButton.setBounds(185, 175, 90, 25);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Connection conexao = null;
-				Statement comando = null;
-				ResultSet resultado = null;
+				Connection conn = null;
+				Statement command = null;
+				ResultSet result = null;
 				
 				try {
-					conexao = DBConnect.StartConnection();
-					comando = conexao.createStatement();
-					String meu_sql = "SELECT * FROM usuarios WHERE email ='" + email.getText() + "' AND password = '" + password.getText().toString() + "'";
-					resultado = comando.executeQuery(meu_sql);
+					conn = DBConnect.StartConnection();
+					command = conn.createStatement();
+
+					String loginSql = String.format("SELECT * FROM usuarios WHERE email='%s' AND password = '%s'", email.getText(), password.getText().toString());
+
+					result = command.executeQuery(loginSql);
 					
-					
-					if (resultado.next()) {
-						String getName = "SELECT * FROM usuarios WHERE email ='"+ email.getText() +"' ";
-						ResultSet rs = comando.executeQuery(getName);
+					if (result.next()) {
+						String selectEmail = String.format("SELECT * FROM usuarios WHERE email='%s'", email.getText());
+
+						ResultSet rs = command.executeQuery(selectEmail);
 						
 						if (rs.next()) {
-							name =  rs.getString(2);
+							name = rs.getString(2);
 							cpf = rs.getString(5);
 							balanceBrl = rs.getDouble(6);
 							balanceUsd = rs.getDouble(7);
 							balanceEur = rs.getDouble(8);
 						}
 
-						UserPanel t1 = new UserPanel();
-						t1.frame.setVisible(true); // abrir janela 2
-						frame.setVisible(false); // fechar janela de login caso de certo
+						frame.setVisible(false);
+
+						UserPanel userPanel = new UserPanel();
+						userPanel.frame.setVisible(true);
 					} else {
-						JOptionPane.showMessageDialog(null, "Credenciais incorretas...");
+						JOptionPane.showMessageDialog(null, "Credenciais incorretas.");
 					}
-				} catch(SQLException err) {
+				} catch (SQLException err) {
 					err.printStackTrace();
 				} finally {
-					DBConnect.EndConnection(conexao);
+					DBConnect.EndConnection(conn);
 
 					try {
-						comando.close();
-						resultado.close();
+						command.close();
+						result.close();
 					} catch(SQLException err) {
 						err.printStackTrace();
 					}
