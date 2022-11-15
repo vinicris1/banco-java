@@ -12,6 +12,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 
 import java.sql.*;
+import java.awt.Color;
 
 public class Login {
 
@@ -54,36 +55,45 @@ public class Login {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.getContentPane().setBackground(new Color(18, 18, 20));
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 350, 270);
+		frame.setBounds(100, 100, 350, 312);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		
-		JLabel lblNewLabel = new JLabel("Banco Java");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNewLabel.setBounds(110, 20, 100, 14);
+		JLabel lblNewLabel = new JLabel("BANCO JAVA");
+		lblNewLabel.setBackground(new Color(43, 132, 116));
+		lblNewLabel.setForeground(new Color(43, 132, 116));
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblNewLabel.setBounds(110, 21, 116, 14);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JLabel lblNewLabel_1 = new JLabel("E-mail:");
+		lblNewLabel_1.setForeground(new Color(255, 255, 255));
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_1.setBounds(50, 50, 46, 14);
+		lblNewLabel_1.setBounds(50, 51, 46, 14);
 		
 		JLabel lblNewLabel_2 = new JLabel("Senha:");
+		lblNewLabel_2.setForeground(new Color(255, 255, 255));
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_2.setBounds(50, 108, 46, 14);
+		lblNewLabel_2.setBounds(50, 112, 46, 14);
 		
 		email = new JTextField();
+		email.setBackground(new Color(255, 255, 255));
 		email.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		email.setBounds(50, 75, 240, 25);
+		email.setBounds(50, 76, 240, 25);
 		email.setColumns(10);
 		
 		password = new JPasswordField();
+		password.setBackground(new Color(255, 255, 255));
 		password.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		password.setBounds(50, 130, 240, 25);
+		password.setBounds(50, 137, 240, 25);
 		
 		JButton btnNewButton = new JButton("Entrar");
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnNewButton.setBounds(185, 175, 90, 25);
+		btnNewButton.setBackground(new Color(43, 132, 116));
+		btnNewButton.setForeground(new Color(0, 0, 0));
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnNewButton.setBounds(50, 185, 240, 25);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Connection conn = null;
@@ -134,8 +144,10 @@ public class Login {
 		});
 		
 		JButton Registrar = new JButton("Registrar");
-		Registrar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		Registrar.setBounds(50, 175, 90, 25);
+		Registrar.setBackground(new Color(18, 18, 20));
+		Registrar.setForeground(new Color(43, 132, 116));
+		Registrar.setFont(new Font("Tahoma", Font.BOLD, 11));
+		Registrar.setBounds(50, 221, 240, 25);
 		Registrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Register reg = new Register();
