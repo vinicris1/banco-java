@@ -22,6 +22,7 @@ public class Login {
 	private JPasswordField password;
 	
 	public static String name;
+	public static String userEmail;
 	public static String cpf;
 	public static double balanceBrl;
 	public static double balanceUsd;
@@ -115,6 +116,7 @@ public class Login {
 						
 						if (rs.next()) {
 							name = rs.getString(2);
+							userEmail = rs.getString(3);
 							cpf = rs.getString(5);
 							balanceBrl = rs.getDouble(6);
 							balanceUsd = rs.getDouble(7);
@@ -136,7 +138,7 @@ public class Login {
 					try {
 						command.close();
 						result.close();
-					} catch(SQLException err) {
+					} catch (SQLException err) {
 						err.printStackTrace();
 					}
 				}
