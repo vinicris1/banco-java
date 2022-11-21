@@ -93,7 +93,7 @@ public class Login {
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnNewButton.setBounds(50, 185, 240, 25);
 		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {			    
+			public void actionPerformed(ActionEvent e) {
 				Connection conn = null;
 				Statement command = null;
 				ResultSet result = null;
