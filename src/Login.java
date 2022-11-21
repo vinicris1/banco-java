@@ -24,9 +24,6 @@ public class Login {
 	public static String name;
 	public static String userEmail;
 	public static String cpf;
-	public static double balanceBrl;
-	public static double balanceUsd;
-	public static double balanceEur;
 
 	/**
 	 * Launch the application.
@@ -96,7 +93,7 @@ public class Login {
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnNewButton.setBounds(50, 185, 240, 25);
 		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {			    
 				Connection conn = null;
 				Statement command = null;
 				ResultSet result = null;
@@ -118,9 +115,6 @@ public class Login {
 							name = rs.getString(2);
 							userEmail = rs.getString(3);
 							cpf = rs.getString(5);
-							balanceBrl = rs.getDouble(6);
-							balanceUsd = rs.getDouble(7);
-							balanceEur = rs.getDouble(8);
 						}
 
 						frame.setVisible(false);

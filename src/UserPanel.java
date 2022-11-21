@@ -46,24 +46,26 @@ public class UserPanel {
 		frame.getContentPane().setLayout(null);
 		frame.setLocationRelativeTo(null);
 		
+		double[] balance = InfoFuncs.GetBalance();
+		
 		JLabel lblNewLabel = new JLabel(String.format("Bem vindo, %s!", Login.name));
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblNewLabel.setBounds(10, 11, 120, 40);
 		frame.getContentPane().add(lblNewLabel);
 		
-		JLabel lblBrl = new JLabel("BRL: " + Login.balanceBrl);
+		JLabel lblBrl = new JLabel("BRL: " + balance[0]);
 		lblBrl.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblBrl.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBrl.setBounds(320, 57, 60, 30);
 		frame.getContentPane().add(lblBrl);
 		
-		JLabel lblUsd = new JLabel("USD: " + Login.balanceUsd);
+		JLabel lblUsd = new JLabel("USD: " + balance[1]);
 		lblUsd.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblUsd.setHorizontalAlignment(SwingConstants.CENTER);
 		lblUsd.setBounds(320, 83, 60, 30);
 		frame.getContentPane().add(lblUsd);
 		
-		JLabel lblEur = new JLabel("EUR: " + Login.balanceEur);
+		JLabel lblEur = new JLabel("EUR: " + balance[2]);
 		lblEur.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblEur.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEur.setBounds(320, 111, 60, 30);
