@@ -60,6 +60,13 @@ public class Register {
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setLocationRelativeTo(null);
+
+		frame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				login.frame.setVisible(true);
+				frame.dispose();
+			}
+		});
 		
 		JLabel lblNewLabel = new JLabel("Nome completo:");
 		lblNewLabel.setForeground(new Color(255, 255, 255));
@@ -93,13 +100,6 @@ public class Register {
 		emailInput.setColumns(10);
 		frame.getContentPane().add(emailInput);
 
-		frame.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				login.frame.setVisible(true);
-				frame.dispose();
-			}
-		});
-		
 		JButton btnNewButton = new JButton("Registrar");
 		btnNewButton.setForeground(new Color(0, 0, 0));
 		btnNewButton.setBackground(new Color(43, 132, 116));

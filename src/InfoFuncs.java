@@ -13,7 +13,6 @@ public class InfoFuncs {
 			stmt = conn.createStatement();
 
 			String qry = String.format("SELECT balance_brl, balance_usd, balance_eur FROM usuarios WHERE email='%s'", Login.userEmail);
-
 			rs = stmt.executeQuery(qry);
 
 			if (rs.next()) {
