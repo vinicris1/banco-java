@@ -82,105 +82,79 @@ public class Exchange {
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 double[] balance = InfoFuncs.GetBalance();
-                double getVal = 0;
+                double getVal = Double.parseDouble(value.getText());
                 Connection conn = null;
                 Statement stmt = null;
                 ResultSet rs = null;
                 
-                try{
-                    getVal = Double.parseDouble(value.getText());
-                    
-                }catch(NumberFormatException nfe){
-                    System.out.println("ERRO");
-                }
+                
                 String valFrom = fromConvert.getSelectedItem().toString().toLowerCase();
                 String valTo = toConvert.getSelectedItem().toString().toLowerCase();
                 
-                String brl = "BRL";
-                String usd = "USD";
-                String eur = "EUR";
+                double result = 0;
                 
-              /*  double currency = 0;
-                if(valFrom.equals("brl")) {
-                    double result = (50 * 5.37);
-                }*/
-                
-                
-               if (getVal <= 0) {
-                    JOptionPane.showMessageDialog(null, "Você não pode converter um valor menor ou igual a 0.");
-                }if(getVal > 0) {
-                    if(valFrom.equals(valTo)) {
-                        JOptionPane.showMessageDialog(null, "Você não pode converter da mesma moeda.");
-                    }else if(valFrom.equals(brl.toLowerCase())) { //brl para dolar ou eur
-                       // if(balance[0] >= getVal) { //verificação
-                            if(valTo.equals(usd.toLowerCase())) {
-                                    double result = (getVal / 5.37);
-                                    JOptionPane.showMessageDialog(null, result);
-                                    /*try {
-                                        conn = DBConnect.StartConnection();
-                                        stmt = conn.createStatement();
-
-                                        String removeBalance = String.format("UPDATE usuarios SET balance_%s = (balance_%s - %s) WHERE email = '%s'", valFrom, valFrom, getVal, Login.userEmail);
-                                        int exec = stmt.executeUpdate(removeBalance);
-                                        String addBalance = String.format("UPDATE usuarios SET balance_%s = (balance_%s + %s) WHERE email = '%s'", valTo, valTo, result, Login.userEmail);
-                                        int exec2 = stmt.executeUpdate(addBalance);
-                                        if(exec > 0 && exec2 > 0) {
-                                            System.out.println("ok");
-                                        }
-                                        
-                                    } catch (SQLException err) {
-                                        err.printStackTrace();
-                                    } finally {
-                                        DBConnect.EndConnection(conn);
-
-                                        try {
-                                            stmt.close();
-                                            
-                                        } catch (SQLException err) {
-                                            err.printStackTrace();
-                                        }
-                                    }*/
-                                
-                            }else if(valTo.equals(eur.toLowerCase())) {
-                                double result = (getVal / 5.52);
-                                JOptionPane.showMessageDialog(null, result);
-                            }
-                       // }else {
-                       //     JOptionPane.showMessageDialog(null, "Você não tem saldo suficiente");
-                        //}
-                        
-                    }else if(valFrom.equals(usd.toLowerCase())) { //dolar para brl ou eur
-                        if(balance[1] >= getVal) { //verificação
-                            if(valTo.equals(brl.toLowerCase())) {
-                                double result = (getVal * 5.37);
-                                JOptionPane.showMessageDialog(null, result);
-                            }else if(valTo.equals(eur.toLowerCase())) {
-                                double result = (getVal * 0.97);
-                                JOptionPane.showMessageDialog(null, result);
-                            }
-                        }else {
-                            JOptionPane.showMessageDialog(null, "Você não tem saldo suficiente");
-                        }
-                        
-                    }else if(valFrom.equals(eur.toLowerCase())) { //eur para brl ou usd
-                        if(balance[2] >= getVal) { //verificação
-                            if(valTo.equals(brl.toLowerCase())) {
-                                double result = (getVal * 5.52);
-                                JOptionPane.showMessageDialog(null, result);
-                            }else if(valTo.equals(usd.toLowerCase())) {
-                                double result = (getVal * 1.03);
-                                JOptionPane.showMessageDialog(null, result);
-                            }
-                        }else {
-                            JOptionPane.showMessageDialog(null, "Você não tem saldo suficiente");
-                        }
-                        
-                    }
+                if (valFrom.equals("brl") && valTo.equals("usd")) {
+                    result = (getVal / 5.36);
+                } else if (valFrom.equals("brl") && valTo.equals("eur")) {
+                    result = (getVal / 5.52);
+                } else if (valFrom.equals("usd") && valTo.equals("brl")) {
+                    result = (getVal * 5.36);
+                } else if (valFrom.equals("usd") && valTo.equals("eur")) {
+                    result = (getVal * 0.97);
+                } else if (valFrom.equals("eur") && valTo.equals("brl")) {
+                    result = (getVal * 5.52);
+                } else if (valFrom.equals("eur") && valTo.equals("usd")) {
+                    result = (getVal * 1.03);
                 }
                 
-               
+                int index = 0;
+
+                if (valFrom.equals("brl")) {
+                    index = 0;
+                } else if (valFrom.equals("usd")) {
+                    index = 1;
+                } else if (valFrom.equals("eur")) {
+                    index = 2;
+                }
                 
+                String teste = value.getText();
                 
+               if (teste.length() < 1 || getVal < 1) { //Arrumar para n pegar com o valor vazio
+                    JOptionPane.showMessageDialog(null, "Você não pode converter um valor menor ou igual a 0.");
+                }else if(valFrom.equals(valTo)) {
+                    JOptionPane.showMessageDialog(null, "Não pode converter a mesma moeda");
+                }else if(getVal > balance[index]) {
+                    JOptionPane.showMessageDialog(null, "Você não tem saldo suficiente");
+                }else {
+                    try {
+                        conn = DBConnect.StartConnection();
+                        stmt = conn.createStatement();
+
+                        String removeBalance = String.format("UPDATE usuarios SET balance_%s = (balance_%s - %s) WHERE email = '%s'", valFrom, valFrom, getVal, Login.userEmail);
+                        int exec = stmt.executeUpdate(removeBalance);
+                        
+                        String addBalance = String.format("UPDATE usuarios SET balance_%s = (balance_%s + %s) WHERE email = '%s'", valTo, valTo, result, Login.userEmail);
+                        int exec2 = stmt.executeUpdate(addBalance);
+                        
+                        if(exec > 0 && exec2 > 0) {
+                            System.out.println("ok");
+                        }
+                        
+                    } catch (SQLException err) {
+                        err.printStackTrace();
+                    } finally {
+                        DBConnect.EndConnection(conn);
+
+                        try {
+                            stmt.close();
+                            
+                        } catch (SQLException err) {
+                            err.printStackTrace();
+                        }
+                    }
+                }
+                    
+  
                 
             }
         });
