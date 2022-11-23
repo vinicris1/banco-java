@@ -2,13 +2,15 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
+import javax.swing.JPanel;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.EventQueue;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.Color;
-import javax.swing.JPanel;
+
+import java.text.DecimalFormat;
 
 public class UserPanel {
 
@@ -49,12 +51,14 @@ public class UserPanel {
 		frame.getContentPane().setLayout(null);
 		frame.setLocationRelativeTo(null);
 		
+		DecimalFormat df = new DecimalFormat("0.00");
+
 		double[] balance = Utils.GetBalance();
 		
-		JLabel lblNewLabel = new JLabel(String.format("Bem vindo, %s!", Login.name));
+		JLabel lblNewLabel = new JLabel(String.format("Bem vindo, %s.", Login.name));
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel.setBounds(10, 11, 142, 40);
+		lblNewLabel.setBounds(10, 11, 480, 40);
 		frame.getContentPane().add(lblNewLabel);
 		
 		JPanel panel = new JPanel();
@@ -63,23 +67,23 @@ public class UserPanel {
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblBrl = new JLabel("BRL: " + balance[0]);
+		JLabel lblBrl = new JLabel("BRL: " + df.format(balance[0]));
 		lblBrl.setForeground(new Color(255, 255, 255));
-		lblBrl.setBounds(10, 52, 60, 30);
+		lblBrl.setBounds(10, 52, 122, 30);
 		panel.add(lblBrl);
 		lblBrl.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblBrl.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JLabel lblUsd = new JLabel("USD: " + balance[1]);
+		JLabel lblUsd = new JLabel("USD: " + df.format(balance[1]));
 		lblUsd.setForeground(new Color(255, 255, 255));
-		lblUsd.setBounds(10, 93, 60, 30);
+		lblUsd.setBounds(10, 93, 122, 30);
 		panel.add(lblUsd);
 		lblUsd.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblUsd.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JLabel lblEur = new JLabel("EUR: " + balance[2]);
+		JLabel lblEur = new JLabel("EUR: " + df.format(balance[2]));
 		lblEur.setForeground(new Color(255, 255, 255));
-		lblEur.setBounds(10, 136, 60, 30);
+		lblEur.setBounds(10, 136, 122, 30);
 		panel.add(lblEur);
 		lblEur.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblEur.setHorizontalAlignment(SwingConstants.CENTER);

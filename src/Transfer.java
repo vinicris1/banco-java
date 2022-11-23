@@ -79,29 +79,29 @@ public class Transfer {
 		lblNewLabel_2.setForeground(new Color(255, 255, 255));
 		
 		transferReceiver = new JTextField();
-		transferReceiver.setBounds(10, 34, 134, 25);
+		transferReceiver.setBounds(10, 34, 140, 25);
 		panel.add(transferReceiver);
 		transferReceiver.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("Valor:");
-		lblNewLabel_1.setBounds(10, 79, 60, 19);
+		lblNewLabel_1.setBounds(10, 144, 60, 19);
 		panel.add(lblNewLabel_1);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblNewLabel_1.setForeground(new Color(255, 255, 255));
 		
 		transferValue = new JTextField();
-		transferValue.setBounds(10, 99, 114, 25);
+		transferValue.setBounds(10, 164, 80, 25);
 		panel.add(transferValue);
 		transferValue.setToolTipText("Email");
 		transferValue.setColumns(10);
 		
 		JLabel lblNewLabel_0 = new JLabel("Moeda:");
-		lblNewLabel_0.setBounds(10, 135, 77, 25);
+		lblNewLabel_0.setBounds(10, 84, 77, 25);
 		panel.add(lblNewLabel_0);
 		lblNewLabel_0.setForeground(new Color(255, 255, 255));
 		
 		JComboBox transferCurrency = new JComboBox();
-		transferCurrency.setBounds(10, 159, 70, 25);
+		transferCurrency.setBounds(10, 108, 50, 25);
 		panel.add(transferCurrency);
 		transferCurrency.setModel(new DefaultComboBoxModel(new String[] {"BRL", "USD", "EUR"}));
 		
@@ -109,6 +109,7 @@ public class Transfer {
 		btnNewButton.setForeground(new Color(255, 255, 255));
 		btnNewButton.setBackground(new Color(43, 132, 116));
 		btnNewButton.setBounds(55, 223, 122, 25);
+		btnNewButton.setFocusPainted(false);
 		panel.add(btnNewButton);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -132,10 +133,10 @@ public class Transfer {
 
 				double[] balance = Utils.GetBalance();
 
-				if (value.length() < 1 || Double.parseDouble(value) < 1) {
-					JOptionPane.showMessageDialog(null, "Valor inválido.");
-				} else if (receiverEmail.length() < 1 || receiverEmail.equalsIgnoreCase(Login.userEmail)) {
+				if (receiverEmail.length() < 1 || receiverEmail.equalsIgnoreCase(Login.userEmail)) {
 					JOptionPane.showMessageDialog(null, "Email inválido.");
+				} else if (value.length() < 1 || Double.parseDouble(value) < 1) {
+					JOptionPane.showMessageDialog(null, "Valor inválido.");
 				} else if (Double.parseDouble(value) > balance[index]) {
 					JOptionPane.showMessageDialog(null, "Saldo insuficiente.");
 				} else {

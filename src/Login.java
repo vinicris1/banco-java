@@ -66,7 +66,7 @@ public class Login {
 		lblNewLabel.setBounds(110, 21, 116, 14);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JLabel lblNewLabel_1 = new JLabel("E-mail:");
+		JLabel lblNewLabel_1 = new JLabel("Email:");
 		lblNewLabel_1.setForeground(new Color(255, 255, 255));
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblNewLabel_1.setBounds(50, 51, 46, 14);
