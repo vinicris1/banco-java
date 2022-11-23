@@ -49,7 +49,7 @@ public class UserPanel {
 		frame.getContentPane().setLayout(null);
 		frame.setLocationRelativeTo(null);
 		
-		double[] balance = InfoFuncs.GetBalance();
+		double[] balance = Utils.GetBalance();
 		
 		JLabel lblNewLabel = new JLabel(String.format("Bem vindo, %s!", Login.name));
 		lblNewLabel.setForeground(new Color(255, 255, 255));

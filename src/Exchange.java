@@ -81,7 +81,7 @@ public class Exchange {
         JButton btnNewButton = new JButton("Converter");
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                double[] balance = InfoFuncs.GetBalance();
+                double[] balance = Utils.GetBalance();
                 double getVal = Double.parseDouble(value.getText());
                 Connection conn = null;
                 Statement stmt = null;

@@ -130,7 +130,7 @@ public class Transfer {
 					index = 2;
 				}
 
-				double[] balance = InfoFuncs.GetBalance();
+				double[] balance = Utils.GetBalance();
 
 				if (value.length() < 1 || Double.parseDouble(value) < 1) {
 					JOptionPane.showMessageDialog(null, "Valor inválido.");
