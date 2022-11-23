@@ -55,7 +55,7 @@ public class Login {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(new Color(18, 18, 20));
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 350, 312);
+		frame.setBounds(100, 100, 352, 314);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		

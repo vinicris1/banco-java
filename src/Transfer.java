@@ -13,6 +13,9 @@ import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 
 import java.sql.*;
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.JPanel;
 
 public class Transfer {
 
@@ -49,8 +52,9 @@ public class Transfer {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.getContentPane().setBackground(new Color(18, 18, 20));
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 566, 357);
 		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setLocationRelativeTo(null);
@@ -63,35 +67,49 @@ public class Transfer {
 			}
 		});
 		
-		JLabel lblNewLabel_0 = new JLabel("Moeda:");
-		lblNewLabel_0.setBounds(19, 33, 77, 25);
-		frame.getContentPane().add(lblNewLabel_0);
-		
-		transferValue = new JTextField();
-		transferValue.setToolTipText("Email");
-		transferValue.setBounds(66, 69, 75, 25);
-		frame.getContentPane().add(transferValue);
-		transferValue.setColumns(10);
-		
-		JComboBox transferCurrency = new JComboBox();
-		transferCurrency.setModel(new DefaultComboBoxModel(new String[] {"BRL", "USD", "EUR"}));
-		transferCurrency.setBounds(106, 34, 70, 25);
-		frame.getContentPane().add(transferCurrency);
-		
-		JLabel lblNewLabel_1 = new JLabel("Valor:");
-		lblNewLabel_1.setBounds(23, 72, 60, 19);
-		frame.getContentPane().add(lblNewLabel_1);
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(20, 20, 30));
+		panel.setBounds(149, 29, 231, 278);
+		frame.getContentPane().add(panel);
+		panel.setLayout(null);
 		
 		JLabel lblNewLabel_2 = new JLabel("Transferir para:");
-		lblNewLabel_2.setBounds(33, 136, 90, 25);
-		frame.getContentPane().add(lblNewLabel_2);
+		lblNewLabel_2.setBounds(10, 11, 90, 25);
+		panel.add(lblNewLabel_2);
+		lblNewLabel_2.setForeground(new Color(255, 255, 255));
 		
 		transferReceiver = new JTextField();
-		transferReceiver.setBounds(126, 136, 150, 25);
-		frame.getContentPane().add(transferReceiver);
+		transferReceiver.setBounds(10, 34, 134, 25);
+		panel.add(transferReceiver);
 		transferReceiver.setColumns(10);
 		
+		JLabel lblNewLabel_1 = new JLabel("Valor:");
+		lblNewLabel_1.setBounds(10, 79, 60, 19);
+		panel.add(lblNewLabel_1);
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNewLabel_1.setForeground(new Color(255, 255, 255));
+		
+		transferValue = new JTextField();
+		transferValue.setBounds(10, 99, 114, 25);
+		panel.add(transferValue);
+		transferValue.setToolTipText("Email");
+		transferValue.setColumns(10);
+		
+		JLabel lblNewLabel_0 = new JLabel("Moeda:");
+		lblNewLabel_0.setBounds(10, 135, 77, 25);
+		panel.add(lblNewLabel_0);
+		lblNewLabel_0.setForeground(new Color(255, 255, 255));
+		
+		JComboBox transferCurrency = new JComboBox();
+		transferCurrency.setBounds(10, 159, 70, 25);
+		panel.add(transferCurrency);
+		transferCurrency.setModel(new DefaultComboBoxModel(new String[] {"BRL", "USD", "EUR"}));
+		
 		JButton btnNewButton = new JButton("Transferir");
+		btnNewButton.setForeground(new Color(255, 255, 255));
+		btnNewButton.setBackground(new Color(43, 132, 116));
+		btnNewButton.setBounds(55, 223, 122, 25);
+		panel.add(btnNewButton);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Connection conn = null;
@@ -177,7 +195,11 @@ public class Transfer {
 				}
 			}
 		});
-		btnNewButton.setBounds(158, 199, 90, 25);
-		frame.getContentPane().add(btnNewButton);
+		
+		JLabel lblNewLabel = new JLabel("Tranferência");
+		lblNewLabel.setForeground(new Color(255, 255, 255));
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel.setBounds(10, 11, 123, 14);
+		frame.getContentPane().add(lblNewLabel);
 	}
 }

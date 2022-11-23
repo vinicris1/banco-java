@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.EventQueue;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
+import javax.swing.JPanel;
 
 public class UserPanel {
 
@@ -40,8 +42,9 @@ public class UserPanel {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.getContentPane().setBackground(new Color(18, 18, 20));
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 550, 351);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setLocationRelativeTo(null);
@@ -49,35 +52,70 @@ public class UserPanel {
 		double[] balance = InfoFuncs.GetBalance();
 		
 		JLabel lblNewLabel = new JLabel(String.format("Bem vindo, %s!", Login.name));
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel.setBounds(10, 11, 120, 40);
+		lblNewLabel.setForeground(new Color(255, 255, 255));
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel.setBounds(10, 11, 142, 40);
 		frame.getContentPane().add(lblNewLabel);
 		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(20, 20, 33));
+		panel.setBounds(75, 62, 142, 177);
+		frame.getContentPane().add(panel);
+		panel.setLayout(null);
+		
 		JLabel lblBrl = new JLabel("BRL: " + balance[0]);
+		lblBrl.setForeground(new Color(255, 255, 255));
+		lblBrl.setBounds(10, 52, 60, 30);
+		panel.add(lblBrl);
 		lblBrl.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblBrl.setHorizontalAlignment(SwingConstants.CENTER);
-		lblBrl.setBounds(320, 57, 60, 30);
-		frame.getContentPane().add(lblBrl);
 		
 		JLabel lblUsd = new JLabel("USD: " + balance[1]);
+		lblUsd.setForeground(new Color(255, 255, 255));
+		lblUsd.setBounds(10, 93, 60, 30);
+		panel.add(lblUsd);
 		lblUsd.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblUsd.setHorizontalAlignment(SwingConstants.CENTER);
-		lblUsd.setBounds(320, 83, 60, 30);
-		frame.getContentPane().add(lblUsd);
 		
 		JLabel lblEur = new JLabel("EUR: " + balance[2]);
+		lblEur.setForeground(new Color(255, 255, 255));
+		lblEur.setBounds(10, 136, 60, 30);
+		panel.add(lblEur);
 		lblEur.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblEur.setHorizontalAlignment(SwingConstants.CENTER);
-		lblEur.setBounds(320, 111, 60, 30);
-		frame.getContentPane().add(lblEur);
 		
-		JLabel lblNewLabel_1 = new JLabel("Saldo");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		JLabel lblNewLabel_1_1 = new JLabel("Saldo");
+		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1_1.setForeground(Color.WHITE);
+		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblNewLabel_1_1.setBounds(42, 11, 60, 30);
+		panel.add(lblNewLabel_1_1);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(20, 20, 30));
+		panel_1.setBorder(null);
+		panel_1.setBounds(301, 62, 135, 177);
+		frame.getContentPane().add(panel_1);
+		panel_1.setLayout(null);
+		
+		JButton btnNewButton = new JButton("Transferência   >");
+		btnNewButton.setBackground(new Color(20, 20, 30));
+		btnNewButton.setForeground(new Color(43, 132, 116));
+		btnNewButton.setBounds(0, 67, 120, 25);
+		panel_1.add(btnNewButton);
+		
+		JLabel lblNewLabel_1 = new JLabel("Opções");
+		lblNewLabel_1.setBounds(35, 11, 60, 30);
+		panel_1.add(lblNewLabel_1);
+		lblNewLabel_1.setForeground(new Color(255, 255, 255));
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setBounds(320, 16, 60, 30);
-		frame.getContentPane().add(lblNewLabel_1);
 		
-		JButton btnNewButton = new JButton("Transferência");
+		JButton btnNewButton_1 = new JButton("Converter  >");
+		btnNewButton_1.setBackground(new Color(20, 20, 30));
+		btnNewButton_1.setForeground(new Color(43, 132, 116));
+		btnNewButton_1.setBounds(0, 103, 100, 25);
+		panel_1.add(btnNewButton_1);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Transfer trf = new Transfer();
@@ -85,11 +123,5 @@ public class UserPanel {
 				frame.setVisible(false);
 			}
 		});
-		btnNewButton.setBounds(301, 152, 120, 25);
-		frame.getContentPane().add(btnNewButton);
-		
-		JButton btnNewButton_1 = new JButton("Converter");
-		btnNewButton_1.setBounds(301, 204, 100, 25);
-		frame.getContentPane().add(btnNewButton_1);
 	}
 }
