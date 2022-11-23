@@ -1,25 +1,26 @@
 import java.sql.*;
 
 public class DBConnect {
-	private static Connection connect = null;
+	private static Connection conn = null;
 
 	public static Connection StartConnection() {
 		try {
-			if (connect == null) {
+			if (conn == null) {
 				String url = "jdbc:mysql://localhost/banco";
-				connect = DriverManager.getConnection(url, "root", "");
+				conn = DriverManager.getConnection(url, "root", "");
 			}
 		} catch (SQLException err) {
 			err.printStackTrace();
 		}
-		return connect;
+
+		return conn;
 	}
 
 	public static void EndConnection(Connection c) {
 		try {
 			if (c != null) {
 				c.close();
-				connect = null;
+				conn = null;
 			}
 		} catch (SQLException err) {
 			err.printStackTrace();
