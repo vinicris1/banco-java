@@ -115,12 +115,11 @@ public class Login {
 							name = rs.getString(2);
 							userEmail = rs.getString(3);
 							cpf = rs.getString(5);
+
+							frame.dispose();
+							UserPanel userPanel = new UserPanel();
+							userPanel.frame.setVisible(true);
 						}
-
-						frame.setVisible(false);
-
-						UserPanel userPanel = new UserPanel();
-						userPanel.frame.setVisible(true);
 					} else {
 						JOptionPane.showMessageDialog(null, "Credenciais incorretas.");
 					}
@@ -138,6 +137,7 @@ public class Login {
 				}
 			}
 		});
+		btnNewButton.setFocusPainted(false);
 		
 		JButton Registrar = new JButton("Registrar");
 		Registrar.setBackground(new Color(18, 18, 20));
@@ -146,11 +146,13 @@ public class Login {
 		Registrar.setBounds(50, 221, 240, 25);
 		Registrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Register reg = new Register();
-				reg.frame.setVisible(true);
-				frame.setVisible(false);
+				frame.dispose();
+				Register register = new Register();
+				register.frame.setVisible(true);
 			}
 		});
+		Registrar.setFocusPainted(false);
+
 		frame.getContentPane().setLayout(null);
 		frame.getContentPane().add(lblNewLabel);
 		frame.getContentPane().add(lblNewLabel_1);

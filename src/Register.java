@@ -63,8 +63,8 @@ public class Register {
 
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				login.frame.setVisible(true);
 				frame.dispose();
+				login.frame.setVisible(true);
 			}
 		});
 		
@@ -156,7 +156,7 @@ public class Register {
 
 							if (command.executeUpdate() > 0) {
 								JOptionPane.showMessageDialog(btnNewButton, "Conta criada com sucesso!");
-								frame.setVisible(false);
+								frame.dispose();
 								login.frame.setVisible(true);
 							}
 						}
@@ -175,6 +175,7 @@ public class Register {
 			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnNewButton.setFocusPainted(false);
 		frame.getContentPane().add(btnNewButton);
 		
 		passwordInput = new JPasswordField();

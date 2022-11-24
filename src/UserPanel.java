@@ -102,30 +102,39 @@ public class UserPanel {
 		frame.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 		
-		JButton btnNewButton = new JButton("Transferência   >");
-		btnNewButton.setBackground(new Color(20, 20, 30));
-		btnNewButton.setForeground(new Color(43, 132, 116));
-		btnNewButton.setBounds(0, 67, 120, 25);
-		panel_1.add(btnNewButton);
-		
 		JLabel lblNewLabel_1 = new JLabel("Opções");
 		lblNewLabel_1.setBounds(35, 11, 60, 30);
 		panel_1.add(lblNewLabel_1);
 		lblNewLabel_1.setForeground(new Color(255, 255, 255));
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		JButton btnNewButton_1 = new JButton("Converter  >");
-		btnNewButton_1.setBackground(new Color(20, 20, 30));
-		btnNewButton_1.setForeground(new Color(43, 132, 116));
-		btnNewButton_1.setBounds(0, 103, 100, 25);
-		panel_1.add(btnNewButton_1);
+				
+		JButton btnNewButton = new JButton("Transferir");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Transfer trf = new Transfer();
-				trf.frame.setVisible(true);
 				frame.setVisible(false);
+				Transfer transfer = new Transfer();
+				transfer.frame.setVisible(true);
 			}
 		});
+		btnNewButton.setBackground(new Color(20, 20, 30));
+		btnNewButton.setForeground(new Color(43, 132, 116));
+		btnNewButton.setBounds(10, 60, 115, 25);
+		panel_1.add(btnNewButton);
+		btnNewButton.setFocusPainted(false);
+
+		JButton btnNewButton_1 = new JButton("Converter");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				Exchange exchange = new Exchange();
+				exchange.frame.setVisible(true);
+			}
+		});
+		btnNewButton_1.setBackground(new Color(20, 20, 30));
+		btnNewButton_1.setForeground(new Color(43, 132, 116));
+		btnNewButton_1.setBounds(10, 110, 115, 25);
+		panel_1.add(btnNewButton_1);
+		btnNewButton_1.setFocusPainted(false);
 	}
 }
