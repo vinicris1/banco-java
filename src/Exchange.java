@@ -12,6 +12,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import java.sql.*;
+import java.awt.Color;
+import javax.swing.JPanel;
+import java.awt.Font;
 
 public class Exchange {
 
@@ -46,32 +49,63 @@ public class Exchange {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 403, 172);
+		frame.getContentPane().setBackground(new Color(18, 18, 20));
+		frame.setBounds(100, 100, 591, 342);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JComboBox fromConvert = new JComboBox();
-		fromConvert.setModel(new DefaultComboBoxModel(new String[] {"BRL", "USD", "EUR"}));
-		fromConvert.setBounds(96, 52, 52, 22);
-		frame.getContentPane().add(fromConvert);
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(28, 28, 33));
+		panel.setBounds(10, 70, 555, 110);
+		frame.getContentPane().add(panel);
+		panel.setLayout(null);
 		
-		JComboBox toConvert = new JComboBox();
-		toConvert.setModel(new DefaultComboBoxModel(new String[] {"BRL", "USD", "EUR"}));
-		toConvert.setSelectedItem("");
-		toConvert.setBounds(191, 52, 52, 22);
-		frame.getContentPane().add(toConvert);
-		
-		JLabel lblNewLabel_1 = new JLabel("to");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setBounds(150, 56, 46, 14);
-		frame.getContentPane().add(lblNewLabel_1);
+		JLabel lblNewLabel_3 = new JLabel("Valor");
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblNewLabel_3.setBounds(20, 26, 62, 14);
+		panel.add(lblNewLabel_3);
+		lblNewLabel_3.setForeground(new Color(255, 255, 255));
 		
 		value = new JTextField();
-		value.setBounds(34, 54, 52, 20);
-		frame.getContentPane().add(value);
+		value.setBounds(20, 51, 102, 20);
+		panel.add(value);
 		value.setColumns(10);
 		
+		JComboBox fromConvert = new JComboBox();
+		fromConvert.setBounds(265, 51, 52, 20);
+		panel.add(fromConvert);
+		fromConvert.setModel(new DefaultComboBoxModel(new String[] {"BRL", "USD", "EUR"}));
+		
+		JComboBox toConvert = new JComboBox();
+		toConvert.setBounds(152, 51, 52, 20);
+		panel.add(toConvert);
+		toConvert.setModel(new DefaultComboBoxModel(new String[] {"BRL", "USD", "EUR"}));
+		toConvert.setSelectedItem("");
+		
+		JLabel lblNewLabel_1 = new JLabel("Para");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblNewLabel_1.setBounds(212, 54, 46, 14);
+		panel.add(lblNewLabel_1);
+		lblNewLabel_1.setForeground(new Color(255, 255, 255));
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		
 		JButton btnNewButton = new JButton("Converter");
+		btnNewButton.setForeground(new Color(255, 255, 255));
+		btnNewButton.setBackground(new Color(43, 132, 116));
+		btnNewButton.setBounds(456, 50, 89, 23);
+		panel.add(btnNewButton);
+		
+		JLabel lblNewLabel_3_1 = new JLabel("Valor para receber");
+		lblNewLabel_3_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblNewLabel_3_1.setBounds(314, 26, 116, 14);
+		panel.add(lblNewLabel_3_1);
+		lblNewLabel_3_1.setForeground(new Color(255, 255, 255));
+		
+		JLabel lblNewLabel = new JLabel("Conversor de Moeda");
+		lblNewLabel.setForeground(new Color(255, 255, 255));
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel.setBounds(10, 22, 202, 14);
+		frame.getContentPane().add(lblNewLabel);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				double[] balance = Utils.GetBalance();
@@ -148,15 +182,5 @@ public class Exchange {
 				}
 			}
 		});
-		btnNewButton.setBounds(280, 91, 89, 23);
-		frame.getContentPane().add(btnNewButton);
-		
-		JLabel lblNewLabel_3 = new JLabel("Valor para transferir");
-		lblNewLabel_3.setBounds(24, 33, 114, 14);
-		frame.getContentPane().add(lblNewLabel_3);
-		
-		JLabel lblNewLabel_3_1 = new JLabel("Valor para receber");
-		lblNewLabel_3_1.setBounds(191, 31, 114, 14);
-		frame.getContentPane().add(lblNewLabel_3_1);
 	}
 }
