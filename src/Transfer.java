@@ -122,7 +122,6 @@ public class Transfer {
 				String value = transferValue.getText();
 
 				int index = 0;
-
 				if (currency.equals("brl")) {
 					index = 0;
 				} else if (currency.equals("usd")) {

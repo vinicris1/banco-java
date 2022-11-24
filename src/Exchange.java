@@ -86,12 +86,12 @@ public class Exchange {
 		value.setColumns(10);
 		
 		JComboBox fromConvert = new JComboBox();
-		fromConvert.setBounds(255, 50, 55, 25);
+		fromConvert.setBounds(150, 50, 55, 25);
 		panel.add(fromConvert);
 		fromConvert.setModel(new DefaultComboBoxModel(new String[] {"BRL", "USD", "EUR"}));
 		
 		JComboBox toConvert = new JComboBox();
-		toConvert.setBounds(150, 50, 55, 25);
+		toConvert.setBounds(255, 50, 55, 25);
 		panel.add(toConvert);
 		toConvert.setModel(new DefaultComboBoxModel(new String[] {"BRL", "USD", "EUR"}));
 		toConvert.setSelectedItem("");
@@ -99,57 +99,53 @@ public class Exchange {
 		JLabel lblNewLabel_1 = new JLabel("Para");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblNewLabel_1.setBounds(215, 55, 60, 15);
-		panel.add(lblNewLabel_1);
 		lblNewLabel_1.setForeground(new Color(255, 255, 255));
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.LEFT);
-		
-		JButton btnNewButton = new JButton("Converter");
-		btnNewButton.setForeground(new Color(255, 255, 255));
-		btnNewButton.setBackground(new Color(43, 132, 116));
-		btnNewButton.setBounds(388, 50, 90, 25);
-		panel.add(btnNewButton);
+		panel.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_3_1 = new JLabel("Moeda");
 		lblNewLabel_3_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_3_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblNewLabel_3_1.setBounds(150, 26, 60, 15);
-		panel.add(lblNewLabel_3_1);
 		lblNewLabel_3_1.setForeground(new Color(255, 255, 255));
+		panel.add(lblNewLabel_3_1);
 		
 		JLabel lblNewLabel = new JLabel("Conversor de Moeda");
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel.setBounds(10, 22, 202, 14);
 		frame.getContentPane().add(lblNewLabel);
+
+		JButton btnNewButton = new JButton("Converter");
+		btnNewButton.setForeground(new Color(255, 255, 255));
+		btnNewButton.setBackground(new Color(43, 132, 116));
+		btnNewButton.setBounds(388, 50, 90, 25);
+		btnNewButton.setFocusPainted(false);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				double[] balance = Utils.GetBalance();
-				double getVal = Double.parseDouble(value.getText());
 				Connection conn = null;
 				Statement stmt = null;
-				ResultSet rs = null;
 				
 				String valFrom = fromConvert.getSelectedItem().toString().toLowerCase();
 				String valTo = toConvert.getSelectedItem().toString().toLowerCase();
-				
+				String getVal = value.getText();
+
 				double result = 0;
-				
 				if (valFrom.equals("brl") && valTo.equals("usd")) {
-					result = (getVal / 5.36);
+					result = (Double.parseDouble(getVal) / 5.36);
 				} else if (valFrom.equals("brl") && valTo.equals("eur")) {
-					result = (getVal / 5.52);
+					result = (Double.parseDouble(getVal) / 5.52);
 				} else if (valFrom.equals("usd") && valTo.equals("brl")) {
-					result = (getVal * 5.36);
+					result = (Double.parseDouble(getVal) * 5.36);
 				} else if (valFrom.equals("usd") && valTo.equals("eur")) {
-					result = (getVal * 0.97);
+					result = (Double.parseDouble(getVal) * 0.97);
 				} else if (valFrom.equals("eur") && valTo.equals("brl")) {
-					result = (getVal * 5.52);
+					result = (Double.parseDouble(getVal) * 5.52);
 				} else if (valFrom.equals("eur") && valTo.equals("usd")) {
-					result = (getVal * 1.03);
+					result = (Double.parseDouble(getVal) * 1.03);
 				}
 				
 				int index = 0;
-
 				if (valFrom.equals("brl")) {
 					index = 0;
 				} else if (valFrom.equals("usd")) {
@@ -157,15 +153,16 @@ public class Exchange {
 				} else if (valFrom.equals("eur")) {
 					index = 2;
 				}
-				
-				String teste = value.getText();
-				
-				// Arrumar para n pegar com o valor vazio
-				if (teste.length() < 1 || getVal < 1) {
+
+				double[] balance = Utils.GetBalance();
+
+				System.out.println(balance[index]);
+
+				if (getVal.length() < 1 || Double.parseDouble(getVal) < 1) {
 					JOptionPane.showMessageDialog(null, "Valor inválido.");
 				} else if (valFrom.equals(valTo)) {
 					JOptionPane.showMessageDialog(null, "Por favor, selecione duas moedas diferentes.");
-				} else if (getVal > balance[index]) {
+				} else if (Double.parseDouble(getVal) > balance[index]) {
 					JOptionPane.showMessageDialog(null, "Saldo insuficiente.");
 				} else {
 					try {
@@ -178,18 +175,17 @@ public class Exchange {
 						String addBalance = String.format("UPDATE usuarios SET balance_%s = (balance_%s + %s) WHERE email = '%s'", valTo, valTo, result, Login.userEmail);
 						int exec2 = stmt.executeUpdate(addBalance);
 						
-						if(exec > 0 && exec2 > 0) {
-							System.out.println("ok");
+						if (exec > 0 && exec2 > 0) {
+							JOptionPane.showMessageDialog(null, "Transferêcia realizada com sucesso.");
 						}
-						
 					} catch (SQLException err) {
 						err.printStackTrace();
 					} finally {
 						DBConnect.EndConnection(conn);
 
 						try {
+							conn.close();
 							stmt.close();
-							rs.close();
 						} catch (SQLException err) {
 							err.printStackTrace();
 						}
@@ -197,5 +193,6 @@ public class Exchange {
 				}
 			}
 		});
+		panel.add(btnNewButton);
 	}
 }
