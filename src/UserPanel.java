@@ -116,7 +116,7 @@ public class UserPanel {
 		JButton btnNewButton = new JButton("Transferir");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frame.setVisible(false);
+				frame.dispose();
 				Transfer transfer = new Transfer();
 				transfer.frame.setVisible(true);
 			}
@@ -130,7 +130,7 @@ public class UserPanel {
 		JButton btnNewButton_1 = new JButton("Converter");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frame.setVisible(false);
+				frame.dispose();
 				Exchange exchange = new Exchange();
 				exchange.frame.setVisible(true);
 			}

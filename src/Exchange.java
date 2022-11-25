@@ -128,27 +128,12 @@ public class Exchange {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Connection conn = null;
-				Statement stmt = null;
+				Statement stmt = null, stmt_2 = null;
 				
 				String valFrom = fromConvert.getSelectedItem().toString().toLowerCase();
 				String valTo = toConvert.getSelectedItem().toString().toLowerCase();
-				String getVal = value.getText();
+				String getVal = value.getText().toString();
 
-				double result = 0;
-				if (valFrom.equals("brl") && valTo.equals("usd")) {
-					result = (Double.parseDouble(getVal) / 5.36);
-				} else if (valFrom.equals("brl") && valTo.equals("eur")) {
-					result = (Double.parseDouble(getVal) / 5.52);
-				} else if (valFrom.equals("usd") && valTo.equals("brl")) {
-					result = (Double.parseDouble(getVal) * 5.36);
-				} else if (valFrom.equals("usd") && valTo.equals("eur")) {
-					result = (Double.parseDouble(getVal) * 0.97);
-				} else if (valFrom.equals("eur") && valTo.equals("brl")) {
-					result = (Double.parseDouble(getVal) * 5.52);
-				} else if (valFrom.equals("eur") && valTo.equals("usd")) {
-					result = (Double.parseDouble(getVal) * 1.03);
-				}
-				
 				int index = 0;
 				if (valFrom.equals("brl")) {
 					index = 0;
@@ -160,8 +145,6 @@ public class Exchange {
 
 				double[] balance = Utils.GetBalance();
 
-				System.out.println(balance[index]);
-
 				if (getVal.length() < 1 || Double.parseDouble(getVal) < 1) {
 					JOptionPane.showMessageDialog(null, "Valor inválido.");
 				} else if (valFrom.equals(valTo)) {
@@ -169,17 +152,33 @@ public class Exchange {
 				} else if (Double.parseDouble(getVal) > balance[index]) {
 					JOptionPane.showMessageDialog(null, "Saldo insuficiente.");
 				} else {
+					double result = 0;
+					if (valFrom.equals("brl") && valTo.equals("usd")) {
+						result = (Double.parseDouble(getVal) / 5.36);
+					} else if (valFrom.equals("brl") && valTo.equals("eur")) {
+						result = (Double.parseDouble(getVal) / 5.52);
+					} else if (valFrom.equals("usd") && valTo.equals("brl")) {
+						result = (Double.parseDouble(getVal) * 5.36);
+					} else if (valFrom.equals("usd") && valTo.equals("eur")) {
+						result = (Double.parseDouble(getVal) * 0.97);
+					} else if (valFrom.equals("eur") && valTo.equals("brl")) {
+						result = (Double.parseDouble(getVal) * 5.52);
+					} else if (valFrom.equals("eur") && valTo.equals("usd")) {
+						result = (Double.parseDouble(getVal) * 1.03);
+					}
+
 					try {
 						conn = DBConnect.StartConnection();
+						
 						stmt = conn.createStatement();
-
 						String removeBalance = String.format("UPDATE usuarios SET balance_%s = (balance_%s - %s) WHERE email = '%s'", valFrom, valFrom, getVal, Login.userEmail);
 						int exec = stmt.executeUpdate(removeBalance);
 						
+						stmt_2 = conn.createStatement();
 						String addBalance = String.format("UPDATE usuarios SET balance_%s = (balance_%s + %s) WHERE email = '%s'", valTo, valTo, result, Login.userEmail);
-						int exec2 = stmt.executeUpdate(addBalance);
+						int exec_2 = stmt_2.executeUpdate(addBalance);
 						
-						if (exec > 0 && exec2 > 0) {
+						if (exec > 0 && exec_2 > 0) {
 							JOptionPane.showMessageDialog(null, "Transferêcia realizada com sucesso.");
 						}
 					} catch (SQLException err) {
@@ -188,11 +187,16 @@ public class Exchange {
 						DBConnect.EndConnection(conn);
 
 						try {
-							conn.close();
-							stmt.close();
+							if (conn != null) conn.close();
+							if (stmt != null) stmt.close();
+							if (stmt_2 != null) stmt_2.close();
 						} catch (SQLException err) {
 							err.printStackTrace();
 						}
+
+						frame.dispose();
+						UserPanel userPanel = new UserPanel();
+						userPanel.frame.setVisible(true);
 					}
 				}
 			}

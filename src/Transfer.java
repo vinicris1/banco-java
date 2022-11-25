@@ -6,7 +6,10 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JPanel;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.EventQueue;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -14,9 +17,6 @@ import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 
 import java.sql.*;
-import java.awt.Color;
-import java.awt.Font;
-import javax.swing.JPanel;
 
 public class Transfer {
 
@@ -151,20 +151,19 @@ public class Transfer {
 						rs = stmt.executeQuery(findUserQry);
 
 						if (rs.next()) {
-							Statement stmt2 = null;
-							Statement stmt3 = null;
+							Statement stmt_2 = null;
+							Statement stmt_3 = null;
 
 							try {
-								stmt2 = conn.createStatement();
-								stmt3 = conn.createStatement();
-								
+								stmt_2 = conn.createStatement();
 								String setReceiverBalance = String.format("UPDATE usuarios SET balance_%s = (balance_%s + %s) WHERE email = '%s'", currency, currency, value, transferReceiver.getText());
-								int count = stmt2.executeUpdate(setReceiverBalance);
+								int exec = stmt_2.executeUpdate(setReceiverBalance);
 
+								stmt_3 = conn.createStatement();
 								String setSenderBalance = String.format("UPDATE usuarios SET balance_%s = (balance_%s - %s) WHERE email = '%s'", currency, currency, value, Login.userEmail);
-								int count2 = stmt3.executeUpdate(setSenderBalance);
+								int exec_2 = stmt_3.executeUpdate(setSenderBalance);
 						
-								if (count > 0 && count2 > 0) {
+								if (exec > 0 && exec_2 > 0) {
 									JOptionPane.showMessageDialog(null, "Transferência realizada com sucesso.");
 								} else {
 									JOptionPane.showMessageDialog(null, "Erro ao realizar transferência.");
@@ -175,8 +174,8 @@ public class Transfer {
 								DBConnect.EndConnection(conn);
 
 								try {
-									stmt2.close();
-									stmt3.close();
+									if (stmt_2 != null) stmt_2.close();
+									if (stmt_3 != null) stmt_3.close();
 								} catch (SQLException err) {
 									err.printStackTrace();
 								}
@@ -190,11 +189,16 @@ public class Transfer {
 						DBConnect.EndConnection(conn);
 
 						try {
-							stmt.close();
-							rs.close();
+							if (conn != null) conn.close();
+							if (stmt != null) stmt.close();
+							if (rs != null) rs.close();
 						} catch (SQLException err) {
 							err.printStackTrace();
 						}
+
+						frame.dispose();
+						UserPanel userPanel = new UserPanel();
+						userPanel.frame.setVisible(true);
 					}
 				}
 			}
