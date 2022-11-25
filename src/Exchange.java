@@ -16,6 +16,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyAdapter;
 
 import java.sql.*;
 
@@ -85,6 +87,26 @@ public class Exchange {
 		lblNewLabel_3.setForeground(new Color(255, 255, 255));
 		
 		value = new JTextField();
+		value.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char c = e.getKeyChar();
+
+				if (Character.isDigit(c) || c == KeyEvent.VK_PERIOD || c == KeyEvent.VK_BACK_SPACE) {
+					if (c == KeyEvent.VK_PERIOD) {
+						String str = value.getText().toString();
+
+						int dot = str.indexOf('.');
+
+						if (dot != -1) {
+							e.consume();
+						}
+					}
+				} else {
+					e.consume();
+				}
+			}
+		});
 		value.setBounds(20, 50, 100, 25);
 		panel.add(value);
 		value.setColumns(10);
