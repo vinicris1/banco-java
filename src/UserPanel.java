@@ -1,6 +1,7 @@
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -43,7 +44,9 @@ public class UserPanel {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
+	    ImageIcon logo = new ImageIcon(getClass().getResource("/icon.png"));
+        frame = new JFrame();
+        frame.setIconImage(logo.getImage());
 		frame.getContentPane().setBackground(new Color(18, 18, 20));
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 550, 351);

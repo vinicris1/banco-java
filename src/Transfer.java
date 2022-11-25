@@ -4,6 +4,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import java.awt.EventQueue;
@@ -51,7 +52,9 @@ public class Transfer {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
+	    ImageIcon logo = new ImageIcon(getClass().getResource("/icon.png"));
+        frame = new JFrame();
+        frame.setIconImage(logo.getImage());
 		frame.getContentPane().setBackground(new Color(18, 18, 20));
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 566, 357);

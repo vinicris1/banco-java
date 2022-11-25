@@ -4,6 +4,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
@@ -52,7 +53,9 @@ public class Login {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+	    ImageIcon logo = new ImageIcon(getClass().getResource("/icon.png"));
 		frame = new JFrame();
+		frame.setIconImage(logo.getImage());
 		frame.getContentPane().setBackground(new Color(18, 18, 20));
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 352, 314);

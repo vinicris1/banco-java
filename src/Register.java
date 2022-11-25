@@ -3,6 +3,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import java.awt.EventQueue;
@@ -52,8 +53,9 @@ public class Register {
 	 */
 	private void initialize() {
 		Login login = new Login();
-
-		frame = new JFrame();
+		ImageIcon logo = new ImageIcon(getClass().getResource("/icon.png"));
+        frame = new JFrame();
+        frame.setIconImage(logo.getImage());
 		frame.getContentPane().setBackground(new Color(18, 18, 20));
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 450, 360);

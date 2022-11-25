@@ -3,6 +3,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -50,7 +51,9 @@ public class Exchange {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
+	    ImageIcon logo = new ImageIcon(getClass().getResource("/icon.png"));
+	    frame = new JFrame();
+        frame.setIconImage(logo.getImage());
 		frame.setResizable(false);
 		frame.getContentPane().setEnabled(false);
 		frame.getContentPane().setBackground(new Color(18, 18, 20));
