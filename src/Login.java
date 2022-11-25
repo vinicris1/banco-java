@@ -22,9 +22,9 @@ public class Login {
 	private JTextField email;
 	private JPasswordField password;
 	
-	public static String name;
+	public static String userName;
 	public static String userEmail;
-	public static String cpf;
+	public static String userCpf;
 
 	/**
 	 * Launch the application.
@@ -101,36 +101,45 @@ public class Login {
 				Connection conn = null;
 				Statement stmt = null;
 				ResultSet rs = null;
-				
-				try {
-					conn = DBConnect.StartConnection();
-					
-					stmt = conn.createStatement();
-					String qry = String.format("SELECT * FROM usuarios WHERE email='%s' AND password = '%s'", email.getText(), password.getText().toString());
-					rs = stmt.executeQuery(qry);
-					
-					if (rs.next()) {
-						name = rs.getString(2);
-						userEmail = rs.getString(3);
-						cpf = rs.getString(5);
 
-						frame.dispose();
-						UserPanel userPanel = new UserPanel();
-						userPanel.frame.setVisible(true);
-					} else {
-						JOptionPane.showMessageDialog(null, "Credenciais incorretas.");
-					}
-				} catch (SQLException err) {
-					err.printStackTrace();
-				} finally {
-					DBConnect.EndConnection(conn);
+				String emailStr = email.getText().toString();
+				String passwordStr = password.getText().toString();
 
+				if (emailStr.length() < 1) {
+					JOptionPane.showMessageDialog(null, "Por favor, insira um email.");
+				} else if (passwordStr.length() < 1) {
+					JOptionPane.showMessageDialog(null, "Por favor, insira uma senha.");
+				} else {
 					try {
-						if (conn != null) conn.close();
-						if (stmt != null) stmt.close();
-						if (rs != null) rs.close();
+						conn = DBConnect.StartConnection();
+						
+						stmt = conn.createStatement();
+						String qry = String.format("SELECT * FROM usuarios WHERE email='%s' AND password = '%s'", emailStr, passwordStr);
+						rs = stmt.executeQuery(qry);
+						
+						if (rs.next()) {
+							userName = rs.getString(2);
+							userEmail = rs.getString(3);
+							userCpf = rs.getString(5);
+
+							frame.dispose();
+							UserPanel userPanel = new UserPanel();
+							userPanel.frame.setVisible(true);
+						} else {
+							JOptionPane.showMessageDialog(null, "Credenciais incorretas.");
+						}
 					} catch (SQLException err) {
 						err.printStackTrace();
+					} finally {
+						DBConnect.EndConnection(conn);
+
+						try {
+							if (conn != null) conn.close();
+							if (stmt != null) stmt.close();
+							if (rs != null) rs.close();
+						} catch (SQLException err) {
+							err.printStackTrace();
+						}
 					}
 				}
 			}

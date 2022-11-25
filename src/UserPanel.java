@@ -59,7 +59,7 @@ public class UserPanel {
 
 		double[] balance = Utils.GetBalance();
 		
-		JLabel lblNewLabel = new JLabel(String.format("Bem vindo, %s.", Login.name));
+		JLabel lblNewLabel = new JLabel(String.format("Bem vindo, %s.", Login.userName));
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel.setBounds(10, 11, 480, 40);
