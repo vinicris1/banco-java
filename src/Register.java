@@ -53,15 +53,17 @@ public class Register {
 	 */
 	private void initialize() {
 		Login login = new Login();
-		ImageIcon logo = new ImageIcon(getClass().getResource("/icon.png"));
-        frame = new JFrame();
-        frame.setIconImage(logo.getImage());
+		
+		frame = new JFrame();
 		frame.getContentPane().setBackground(new Color(18, 18, 20));
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 450, 360);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setLocationRelativeTo(null);
+
+		ImageIcon logo = new ImageIcon(getClass().getResource("/icon.png"));
+		frame.setIconImage(logo.getImage());
 
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {

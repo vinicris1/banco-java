@@ -52,15 +52,16 @@ public class Transfer {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-	    ImageIcon logo = new ImageIcon(getClass().getResource("/icon.png"));
-        frame = new JFrame();
-        frame.setIconImage(logo.getImage());
+		frame = new JFrame();
 		frame.getContentPane().setBackground(new Color(18, 18, 20));
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 566, 357);
 		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setLocationRelativeTo(null);
+
+		ImageIcon logo = new ImageIcon(getClass().getResource("/icon.png"));
+		frame.setIconImage(logo.getImage());
 
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {

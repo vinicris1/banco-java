@@ -51,9 +51,7 @@ public class Exchange {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-	    ImageIcon logo = new ImageIcon(getClass().getResource("/icon.png"));
-	    frame = new JFrame();
-        frame.setIconImage(logo.getImage());
+		frame = new JFrame();
 		frame.setResizable(false);
 		frame.getContentPane().setEnabled(false);
 		frame.getContentPane().setBackground(new Color(18, 18, 20));
@@ -61,6 +59,9 @@ public class Exchange {
 		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setLocationRelativeTo(null);
+
+		ImageIcon logo = new ImageIcon(getClass().getResource("/icon.png"));
+		frame.setIconImage(logo.getImage());
 
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
