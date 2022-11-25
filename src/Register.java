@@ -6,15 +6,15 @@ import javax.swing.JPasswordField;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-import java.awt.EventQueue;
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.EventQueue;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 
 import java.sql.*;
-import java.awt.Color;
 
 public class Register {
 
@@ -111,9 +111,9 @@ public class Register {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Connection conn = null;
-
-				PreparedStatement command = null;
-				PreparedStatement command2 = null;
+				PreparedStatement prepStmt = null;
+				Statement stmt = null, stmt_2 = null;
+				ResultSet rs = null, rs_2 = null;
 
 				int id = 0;
 				String name = nameInput.getText();
@@ -132,33 +132,33 @@ public class Register {
 				} else {
 					try {
 						conn = DBConnect.StartConnection();
+					
+						String insertQry = "INSERT INTO usuarios(id, name, cpf, email, password, balance_brl, balance_usd, balance_eur) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+						prepStmt = conn.prepareStatement(insertQry, Statement.RETURN_GENERATED_KEYS);
 
-						String sql = "INSERT INTO usuarios(id, name, cpf, email, password, balance_brl, balance_usd, balance_eur) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-
-						command = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-						command2 = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-
+						stmt = conn.createStatement();
 						String selectEmail = String.format("SELECT * FROM usuarios WHERE email='%s'", email);
-						String selectCpf = String.format("SELECT * FROM usuarios WHERE cpf='%s'", cpf);
+						rs = stmt.executeQuery(selectEmail);
 
-						ResultSet rs = command.executeQuery(selectEmail);
-						ResultSet rs2 = command2.executeQuery(selectCpf);
+						stmt_2 = conn.createStatement();
+						String selectCpf = String.format("SELECT * FROM usuarios WHERE cpf='%s'", cpf);
+						rs_2 = stmt_2.executeQuery(selectCpf);
 
 						if (rs.next()) {
 							JOptionPane.showMessageDialog(btnNewButton, "Este email já foi registrado.");
-						} else if (rs2.next()) {
+						} else if (rs_2.next()) {
 							JOptionPane.showMessageDialog(btnNewButton, "Este CPF já foi registrado.");
 						} else {
-							command.setInt(1, id);
-							command.setString(2, name);
-							command.setString(3, cpf);
-							command.setString(4, email);
-							command.setString(5, password);
-							command.setDouble(6, 50);
-							command.setDouble(7, 0);
-							command.setDouble(8, 0);
+							prepStmt.setInt(1, id);
+							prepStmt.setString(2, name);
+							prepStmt.setString(3, cpf);
+							prepStmt.setString(4, email);
+							prepStmt.setString(5, password);
+							prepStmt.setDouble(6, 50);
+							prepStmt.setDouble(7, 0);
+							prepStmt.setDouble(8, 0);
 
-							if (command.executeUpdate() > 0) {
+							if (prepStmt.executeUpdate() > 0) {
 								JOptionPane.showMessageDialog(btnNewButton, "Conta criada com sucesso!");
 								frame.dispose();
 								login.frame.setVisible(true);
@@ -169,8 +169,12 @@ public class Register {
 					} finally {
 						DBConnect.EndConnection(conn);
 						try {
-							command.close();
-							command2.close();
+							if (conn != null) conn.close();
+							if (prepStmt != null) prepStmt.close();
+							if (stmt != null) stmt.close();
+							if (stmt_2 != null) stmt_2.close();
+							if (rs != null) rs.close();
+							if (rs_2 != null) rs_2.close();
 						} catch (SQLException err) {
 							err.printStackTrace();
 						}
