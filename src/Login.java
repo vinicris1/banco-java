@@ -7,13 +7,13 @@ import javax.swing.JPasswordField;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+import java.awt.Font;
+import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.EventQueue;
-import java.awt.Font;
 
 import java.sql.*;
-import java.awt.Color;
 
 public class Login {
 
@@ -99,31 +99,24 @@ public class Login {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Connection conn = null;
-				Statement command = null;
-				ResultSet result = null;
+				Statement stmt = null;
+				ResultSet rs = null;
 				
 				try {
 					conn = DBConnect.StartConnection();
-					command = conn.createStatement();
-
-					String loginSql = String.format("SELECT * FROM usuarios WHERE email='%s' AND password = '%s'", email.getText(), password.getText().toString());
-
-					result = command.executeQuery(loginSql);
 					
-					if (result.next()) {
-						String selectEmail = String.format("SELECT * FROM usuarios WHERE email='%s'", email.getText());
+					stmt = conn.createStatement();
+					String qry = String.format("SELECT * FROM usuarios WHERE email='%s' AND password = '%s'", email.getText(), password.getText().toString());
+					rs = stmt.executeQuery(qry);
+					
+					if (rs.next()) {
+						name = rs.getString(2);
+						userEmail = rs.getString(3);
+						cpf = rs.getString(5);
 
-						ResultSet rs = command.executeQuery(selectEmail);
-						
-						if (rs.next()) {
-							name = rs.getString(2);
-							userEmail = rs.getString(3);
-							cpf = rs.getString(5);
-
-							frame.dispose();
-							UserPanel userPanel = new UserPanel();
-							userPanel.frame.setVisible(true);
-						}
+						frame.dispose();
+						UserPanel userPanel = new UserPanel();
+						userPanel.frame.setVisible(true);
 					} else {
 						JOptionPane.showMessageDialog(null, "Credenciais incorretas.");
 					}
@@ -133,8 +126,9 @@ public class Login {
 					DBConnect.EndConnection(conn);
 
 					try {
-						command.close();
-						result.close();
+						if (conn != null) conn.close();
+						if (stmt != null) stmt.close();
+						if (rs != null) rs.close();
 					} catch (SQLException err) {
 						err.printStackTrace();
 					}
